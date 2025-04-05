@@ -1,64 +1,70 @@
 import 'package:flutter/material.dart';
 
 void main() {
-  runApp(const MaterialApp(
-    home: SimpleButtonApp(),
-  ));
+  runApp(const MyApp());
 }
 
-class SimpleButtonApp extends StatefulWidget {
-  const SimpleButtonApp({super.key});
+
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
 
   @override
-  State<SimpleButtonApp> createState() => _SimpleButtonAppState();
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'Button Press',
+      home: const HomeScreen(),
+    );
+  }
 }
 
-class _SimpleButtonAppState extends State<SimpleButtonApp> {
-  String buttonText = 'Waiting for a click...';
+
+class HomeScreen extends StatelessWidget {
+  const HomeScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Fun Button Demo'),
-        backgroundColor: Colors.teal,
-      ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text(
-              buttonText,
-              style: const TextStyle(
-                fontSize: 18,
-              ),
+      appBar: AppBar(title: const Text('Button Press Example')),
+      body: const Center(child: MyButton()),
+    );
+  }
+}
+class MyButton extends StatefulWidget {
+  const MyButton({super.key});
+
+  @override
+  State<MyButton> createState() => _MyButtonState();
+}
+
+class _MyButtonState extends State<MyButton> {
+  String buttonText = 'Before Button Pressed';
+
+  void onButtonPressed() {
+    setState(() {
+      buttonText = 'Button Pressed';
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Text(buttonText),
+        const SizedBox(height: 20),
+        ElevatedButton(
+          onPressed: onButtonPressed,
+          style: ElevatedButton.styleFrom(backgroundColor: Colors.white),
+          child: const Text(
+            'Press Me',
+            style: TextStyle(
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+              color: Colors.pink,
             ),
-            const SizedBox(height: 25),
-            ElevatedButton(
-              onPressed: () {
-                setState(() {
-                  buttonText = 'You clicked me!';
-                });
-              },
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.deepPurple,
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 20,
-                  vertical: 15,
-                ),
-              ),
-              child: const Text(
-                'Click Me!',
-                style: TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.pink,
-                ),
-              ),
-            ),
-          ],
+          ),
         ),
-      ),
+      ],
     );
   }
 }
